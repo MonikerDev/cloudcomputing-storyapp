@@ -6,7 +6,7 @@ namespace cst_323___clc_test_app.Services
 {
 	public static class StoryGenerator
 	{
-		const string openAiApiKey = "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"; // Replace with your OpenAI API key
+		const string openAiApiKey = "";
 
 		static APIAuthentication aPIAuthentication;
 		static OpenAIAPI openAiApi;
