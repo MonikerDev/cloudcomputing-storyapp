@@ -1,0 +1,59 @@
+﻿@model IEnumerable<cst_323___clc_test_app.Models.Story>
+
+<p>
+    <a asp-action="CreateStory">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.userID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.premise)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.genre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.story)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.userID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.premise)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.genre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.story)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditStory", "Story", new {id = item.id}, null) |
+                    @Html.ActionLink("Details", "ShowSingleStory", "Story", new {id = item.id}, null) |
+                    @Html.ActionLink("Delete", "Delete", "Story", new {id = item.id}, null)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
