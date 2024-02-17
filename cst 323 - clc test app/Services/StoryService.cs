@@ -13,5 +13,7 @@ namespace cst_323___clc_test_app.Services
 		public void DeleteStory(int id);
 
 		public void AddStory(Story story);
+
+		public List<Story> GetStoriesByAuthor(int authorId);
 	}
 }

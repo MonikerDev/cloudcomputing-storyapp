@@ -51,5 +51,12 @@ namespace cst_323___clc_test_app.Controllers
             Story story = storyRepo.GetStory(id);
             return View("Story", story);
 		}
+
+		public IActionResult DeleteStory(int id)
+		{
+			storyRepo.DeleteStory(id);
+
+            return View("Index", storyRepo.GetAllStories());
+        }
 	}
 }

@@ -40,8 +40,27 @@ namespace cst_323___clc_test_app.Services
 
 		public void DeleteStory(int id)
 		{
-			throw new NotImplementedException();
-		}
+            try
+            {
+                conn.ConnectionString = connectionString;
+                conn.Open();
+                Console.WriteLine("Connected");
+
+                string query = "DELETE FROM stories WHERE id = @id";
+
+                MySqlCommand comm = conn.CreateCommand();
+                comm.CommandText = query;
+				comm.Parameters.Add(new MySqlParameter("@id", id));
+
+				comm.ExecuteNonQuery();
+
+                conn.Close();
+            }
+            catch (Exception e)
+            {
+                Console.Write(e);
+            }
+        }
 
 		public List<Story> GetAllStories()
 		{
@@ -86,7 +105,50 @@ namespace cst_323___clc_test_app.Services
 			return stories;
 		}
 
-		public Story GetStory(int id)
+        public List<Story> GetStoriesByAuthor(int authorId)
+        {
+            List<Story> stories = new List<Story>();
+
+            try
+            {
+                conn.ConnectionString = connectionString;
+                conn.Open();
+                Console.WriteLine("Connected");
+
+                string query = "SELECT * FROM stories WHERE userID = @userID";
+
+                MySqlCommand comm = conn.CreateCommand();
+                comm.CommandText = query;
+				comm.Parameters.Add(new MySqlParameter("@userID", authorId));
+
+                MySqlDataReader reader = comm.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    stories.Add(new Story
+                    {
+                        id = reader.GetInt32("id"),
+                        userID = reader.GetInt32("userID"),
+                        title = reader.GetString("title"),
+                        premise = reader.GetString("premise"),
+                        genre = reader.GetString("genre"),
+                        story = reader.GetString("story")
+                    });
+                }
+
+                conn.Close();
+
+
+            }
+            catch (Exception e)
+            {
+                Console.Write(e);
+            }
+
+            return stories;
+        }
+
+        public Story GetStory(int id)
 		{
 			Story story = new Story();
 
