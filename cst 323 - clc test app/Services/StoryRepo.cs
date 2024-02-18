@@ -16,12 +16,11 @@ namespace cst_323___clc_test_app.Services
 				conn.Open();
 				Console.WriteLine("Connected");
 
-				string query = "INSERT INTO stories (id, userID, title, premise, genre, story) " +
-					"VALUES (@id, @userID, @title, @premise, @genre, @story)";
+				string query = "INSERT INTO stories (userID, title, premise, genre, story) " +
+					"VALUES (@userID, @title, @premise, @genre, @story)";
 
 				MySqlCommand comm = conn.CreateCommand();
 				comm.CommandText = query;
-				comm.Parameters.Add(new MySqlParameter("@id", story.id));
 				comm.Parameters.Add(new MySqlParameter("@userID", story.userID));
 				comm.Parameters.Add(new MySqlParameter("@title", story.title));
 				comm.Parameters.Add(new MySqlParameter("@premise", story.premise));
@@ -181,8 +180,6 @@ namespace cst_323___clc_test_app.Services
                 }
 
                 conn.Close();
-
-
             }
             catch (Exception e)
             {
@@ -213,7 +210,8 @@ namespace cst_323___clc_test_app.Services
 				comm.Parameters.Add(new MySqlParameter("@story", storyToUpdate.story));
 				comm.Parameters.Add(new MySqlParameter("@id", storyToUpdate.id));
 
-				comm.ExecuteNonQuery();
+				int result = comm.ExecuteNonQuery();
+				Console.WriteLine(storyToUpdate);
 
 				conn.Close();
 				return true;

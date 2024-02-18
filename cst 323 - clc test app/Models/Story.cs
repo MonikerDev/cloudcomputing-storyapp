@@ -20,5 +20,10 @@
 			this.genre = genre;
 			this.story = story;
 		}
-	}
+
+        public override string ToString()
+        {
+			return "id: " + id + "\ntitle: " + title + "\npremise: " + premise;
+        }
+    }
 }

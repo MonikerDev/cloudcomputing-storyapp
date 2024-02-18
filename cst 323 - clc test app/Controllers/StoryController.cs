@@ -22,6 +22,7 @@ namespace cst_323___clc_test_app.Controllers
 		{
 			story.userID = 1;
 			story = StoryGenerator.WriteStory(story).Result;
+			Console.WriteLine(story);
 			storyRepo.AddStory(story);
 			
 			return View("Index", storyRepo.GetAllStories());
@@ -30,13 +31,15 @@ namespace cst_323___clc_test_app.Controllers
 		public IActionResult EditStory(int id)
 		{
 			Story story = storyRepo.GetStory(id);
+			Console.WriteLine(story);
 			return View("EditStory", story);
 		}
 
 		public IActionResult ProcessUpdate(Story storyToUpdate)
 		{
-            Console.WriteLine(storyToUpdate.title);
-            if (storyRepo.UpdateStory(storyToUpdate))
+			Console.WriteLine(storyToUpdate);
+			bool result = storyRepo.UpdateStory(storyToUpdate);
+            if (result)
 			{
 				return View("Index", storyRepo.GetAllStories());
 			}

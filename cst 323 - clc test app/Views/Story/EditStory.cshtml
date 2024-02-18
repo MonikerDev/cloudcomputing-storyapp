@@ -7,6 +7,10 @@
         <form asp-action="ProcessUpdate">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
+                <input asp-for="id" readonly type="text" value="@Model.id" class="form-control" />
+                <input asp-for="userID" readonly type="text" value="@Model.userID" class="form-control" />
+            </div>
+            <div class="form-group">
                 <label asp-for="title" class="control-label"></label>
                 <input asp-for="title" type="text" value="@Model.title" class="form-control" />
                 <span asp-validation-for="title" class="text-danger"></span>
