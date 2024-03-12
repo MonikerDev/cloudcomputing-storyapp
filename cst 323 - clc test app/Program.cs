@@ -1,7 +1,18 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Add authentication services
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/User/Login"; // Specify the login path
+        options.AccessDeniedPath = "/Home/AccessDenied"; // Specify the access denied path
+    });
+
 
 var app = builder.Build();
 
@@ -13,11 +24,14 @@ if (!app.Environment.IsDevelopment())
 	app.UseHsts();
 }
 
+
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication(); // Use authentication middleware
 app.UseAuthorization();
 
 app.MapControllerRoute(

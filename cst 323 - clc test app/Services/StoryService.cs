@@ -6,7 +6,7 @@ namespace cst_323___clc_test_app.Services
 	{
 		public List<Story> GetAllStories();
 
-		public Story GetStory(int id);
+        public Story GetStory(int id);
 
 		public bool UpdateStory(Story storyToUpdate);
 

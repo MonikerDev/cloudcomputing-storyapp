@@ -6,6 +6,7 @@ namespace cst_323___clc_test_app.Services
 {
 	public static class StoryGenerator
 	{
+		// Place your openAiAPiKey here. 
 		const string openAiApiKey = ""; 
 
 		static APIAuthentication aPIAuthentication;

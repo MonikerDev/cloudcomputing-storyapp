@@ -5,8 +5,11 @@ namespace cst_323___clc_test_app.Services
 {
     public class UserRepo : UserService
     {
-        private const string connectionString = "server=127.0.0.1;uid=admin;pwd=yummy;database=cc-clc";
-        private MySqlConnector.MySqlConnection conn = new MySqlConnector.MySqlConnection();
+        //  private const string connectionString = "server=127.0.0.1;uid=root;pwd=root;database=cc-clc";
+        //  private MySqlConnector.MySqlConnection conn = new MySqlConnector.MySqlConnection();
+
+        static string connectionString = RDSConnector.GetRDSConnectionString();
+        private MySqlConnection conn = new MySqlConnection(connectionString);
 
         #region Queries
 
@@ -91,5 +94,55 @@ namespace cst_323___clc_test_app.Services
         }
 
         #endregion
+
+
+        public User GetUserByEmailAndPassword(string email, string password)
+        {
+            using (var conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+
+                string query = "SELECT * FROM users WHERE Email = @Email AND Password = @Password";
+                using (var cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Email", email);
+                    cmd.Parameters.AddWithValue("@Password", password);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            User user = new User
+                            {
+                                id = reader.GetInt32("Id"),
+                                email= reader.GetString("Email"),
+                                // Other properties as needed
+                            };
+                            return user;
+                        }
+                    }
+                }
+            }
+
+            return null; // User not found
+        }
+
+        public void AddUser(User newUser)
+        {
+            using (var conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+
+                string query = "INSERT INTO users (Email, Password) VALUES (@Email, @Password)";
+                using (var cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Email", newUser.email);
+                    cmd.Parameters.AddWithValue("@Password", newUser.password);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
+

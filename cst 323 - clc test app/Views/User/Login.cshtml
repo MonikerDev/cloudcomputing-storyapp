@@ -1,0 +1,65 @@
+﻿@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+@model cst_323___clc_test_app.Models.LoginCredentials
+
+<body class="bg-primary">
+    <div id="layoutAuthentication">
+        <div id="layoutAuthentication_content">
+            <main>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-5">
+                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
+                                <img class="card-img-top" src="~/assets/undraw_bibliophile_re_xarc.svg" alt="Example image" width="200" height="200" loading="lazy"></>
+                                <div class="card-body">
+                                    <form asp-controller="User" asp-action="Login" method="post">
+                                        <div class="form-floating mb-3">
+                                            <input class="form-control" asp-for="email" placeholder="name@example.com" />
+                                            <label asp-for="email">Email address</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input class="form-control" asp-for="password" type="password" placeholder="Password" />
+                                            <label asp-for="password">Password</label>
+                                        </div>
+
+                                        @if (ViewData.ModelState.IsValid == false)
+                                        {
+                                            <div class="alert alert-danger" role="alert">
+                                                @foreach (var error in ViewData.ModelState.Values.SelectMany(x => x.Errors))
+                                                {
+                                                    <span>@error.ErrorMessage</span>
+
+                                                    <br />
+                                                }
+                                            </div>
+                                        }
+
+
+                                        <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                            <button type="submit" class="btn btn-primary">Login</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="card-footer text-center py-3">
+                                    <div class="mt-2">
+                                        <form asp-controller="User" asp-action="Register" method="get">
+                                            <button type="submit" class="btn btn-secondary">Create An Account</button>
+                                        </form>
+                                    </div>
+                                    <div class="mt-2">
+                                        <form asp-controller="Home" asp-action="Index">
+                                            <button type="submit" class="btn secondary">Go Back to Home</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>

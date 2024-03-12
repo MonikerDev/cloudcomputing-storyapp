@@ -1,0 +1,78 @@
+﻿@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+@model cst_323___clc_test_app.Models.RegisterCredentials
+
+<body class="bg-primary">
+    <div id="layoutAuthentication">
+        <div id="layoutAuthentication_content">
+            <main>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-7">
+                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                <div class="card-header"><h3 class="text-center font-weight-light my-4">Create Account</h3></div>
+                                <img class="card-img-top p-3" src="~/assets/undraw_reading_time_re_phf7.svg" alt="Example image" width="300" height="300" loading="lazy"></>
+                                <div class="card-body">
+                                   <form asp-controller="User" asp-action="Register" method="post">
+                                        <div class="row mb-3">
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input asp-for="email" class="form-control" id="inputEmail" placeholder="name@example.com" />
+                                            <label asp-for="email" for="inputEmail">Email address</label>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    <input asp-for="password" class="form-control" id="inputPassword" type="password" placeholder="Create a password" />
+                                                    <label asp-for="password" for="inputPassword">Password</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    <input asp-for="confirmPassword" class="form-control" id="inputPasswordConfirm" type="password" placeholder="Confirm password" />
+                                                    <label asp-for="confirmPassword" for="inputPasswordConfirm">Confirm Password</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        @if (ViewData.ModelState.IsValid == false)
+                                        {
+                                            <div class="alert alert-danger" role="alert">
+                                                @foreach (var error in ViewData.ModelState.Values.SelectMany(x => x.Errors))
+                                                {
+                                                    <span>@error.ErrorMessage</span>
+
+                                                    <br />
+                                                }
+                                            </div>
+                                        }
+
+                                        <div class="mt-4 mb-0">
+                                            <div class="d-grid">
+                                                <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="card-footer text-center py-3">
+                                    <div class="mt-2">
+                                        <form asp-controller="User" asp-action="Login" method="get">
+                                            <button type="submit" class="btn btn-secondary">Signin To Existing Account</button>
+                                        </form>
+                                    </div>
+                                    <div class="mt-2">
+                                        <form asp-controller="Home" asp-action="Index">
+                                            <button type="submit" class="btn secondary">Go Back to Home</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>

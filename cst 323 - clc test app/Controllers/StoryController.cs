@@ -1,9 +1,11 @@
 ﻿using cst_323___clc_test_app.Models;
 using cst_323___clc_test_app.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace cst_323___clc_test_app.Controllers
 {
+	[Authorize]
 	public class StoryController : Controller
 	{
 		private StoryService storyRepo = new StoryRepo();
