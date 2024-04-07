@@ -5,11 +5,19 @@ namespace cst_323___clc_test_app.Services
 {
     public class UserRepo : UserService
     {
-        //  private const string connectionString = "server=127.0.0.1;uid=root;pwd=root;database=cc-clc";
-        //  private MySqlConnector.MySqlConnection conn = new MySqlConnector.MySqlConnection();
+        private const string connectionString = "server=127.0.0.1;uid=root;pwd=root;database=cc-clc";
+        private MySqlConnector.MySqlConnection conn = new MySqlConnector.MySqlConnection();
 
-        static string connectionString = RDSConnector.GetRDSConnectionString();
-        private MySqlConnection conn = new MySqlConnection(connectionString);
+        //   static string connectionString = RDSConnector.GetRDSConnectionString();
+        //        private MySqlConnection conn = new MySqlConnection(connectionString);
+
+        private readonly ILogger<UserRepo> _logger;
+
+        public UserRepo(ILogger<UserRepo> logger)
+        {
+            _logger = logger;
+        }
+
 
         #region Queries
 
@@ -95,33 +103,46 @@ namespace cst_323___clc_test_app.Services
 
         #endregion
 
-
         public User GetUserByEmailAndPassword(string email, string password)
         {
-            using (var conn = new MySqlConnection(connectionString))
+            try
             {
-                conn.Open();
-
-                string query = "SELECT * FROM users WHERE Email = @Email AND Password = @Password";
-                using (var cmd = new MySqlCommand(query, conn))
+                _logger.LogInformation("Entered GetUserByEmailAndPassword from UserRepo and attempting to get user by email and password: {Email} at {DateTime:yyyy-MM-dd HH:mm:ss}", email, DateTime.UtcNow);
+                using (var conn = new MySqlConnection(connectionString))
                 {
-                    cmd.Parameters.AddWithValue("@Email", email);
-                    cmd.Parameters.AddWithValue("@Password", password);
+                    conn.Open();
 
-                    using (var reader = cmd.ExecuteReader())
+                    string query = "SELECT * FROM users WHERE Email = @Email AND Password = @Password";
+                    using (var cmd = new MySqlCommand(query, conn))
                     {
-                        if (reader.Read())
+                        cmd.Parameters.AddWithValue("@Email", email);
+                        cmd.Parameters.AddWithValue("@Password", password);
+
+                        using (var reader = cmd.ExecuteReader())
                         {
-                            User user = new User
+                            if (reader.Read())
                             {
-                                id = reader.GetInt32("Id"),
-                                email= reader.GetString("Email"),
-                                // Other properties as needed
-                            };
-                            return user;
+                                User user = new User
+                                {
+                                    id = reader.GetInt32("Id"),
+                                    email = reader.GetString("Email"),
+                                    // Other properties as needed
+                                };
+                                _logger.LogInformation("User found by email and password: {Email} at {DateTime:yyyy-MM-dd HH:mm:ss}", email, DateTime.UtcNow);
+                                return user;
+                            }
                         }
                     }
                 }
+                _logger.LogInformation("User not found by email and password: {Email} at {DateTime:yyyy-MM-dd HH:mm:ss}", email, DateTime.UtcNow);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while getting user by email and password: {Email} at {DateTime:yyyy-MM-dd HH:mm:ss}", email, DateTime.UtcNow);
+            }
+            finally
+            {
+                _logger.LogInformation("Exiting GetUserByEmailAndPassword method from UserRepo at {DateTime:yyyy-MM-dd HH:mm:ss}", DateTime.UtcNow);
             }
 
             return null; // User not found
@@ -129,20 +150,32 @@ namespace cst_323___clc_test_app.Services
 
         public void AddUser(User newUser)
         {
-            using (var conn = new MySqlConnection(connectionString))
+            try
             {
-                conn.Open();
-
-                string query = "INSERT INTO users (Email, Password) VALUES (@Email, @Password)";
-                using (var cmd = new MySqlCommand(query, conn))
+                _logger.LogInformation("Entered AddUser from UserRepo and attempting to add user: {Email} at {DateTime:yyyy-MM-dd HH:mm:ss}", newUser.email, DateTime.UtcNow);
+                using (var conn = new MySqlConnection(connectionString))
                 {
-                    cmd.Parameters.AddWithValue("@Email", newUser.email);
-                    cmd.Parameters.AddWithValue("@Password", newUser.password);
+                    conn.Open();
 
-                    cmd.ExecuteNonQuery();
+                    string query = "INSERT INTO users (Email, Password) VALUES (@Email, @Password)";
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@Email", newUser.email);
+                        cmd.Parameters.AddWithValue("@Password", newUser.password);
+
+                        cmd.ExecuteNonQuery();
+                        _logger.LogInformation("User added successfully: {Email} at {DateTime:yyyy-MM-dd HH:mm:ss}", newUser.email, DateTime.UtcNow);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while adding user: {Email} at {DateTime:yyyy-MM-dd HH:mm:ss}", newUser.email, DateTime.UtcNow);
+            }
+            finally
+            {
+                _logger.LogInformation("Exiting AddUser method from UserRepo at {DateTime:yyyy-MM-dd HH:mm:ss}", DateTime.UtcNow);
             }
         }
     }
 }
-

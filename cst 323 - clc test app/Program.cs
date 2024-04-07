@@ -1,10 +1,12 @@
+using cst_323___clc_test_app.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddScoped<UserService, UserRepo>();
+builder.Services.AddScoped<StoryService, StoryRepo>();
 // Add authentication services
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
@@ -13,6 +15,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.AccessDeniedPath = "/Home/AccessDenied"; // Specify the access denied path
     });
 
+builder.Services.AddLogging();
 
 var app = builder.Build();
 
