@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cst 323 - clc test app", "cst 323 - clc test app\cst 323 - clc test app.csproj", "{968C0E7A-09CE-49C9-A66A-27F288E90EEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cst 323 - clc test app", "cst 323 - clc test app\cst 323 - clc test app.csproj", "{968C0E7A-09CE-49C9-A66A-27F288E90EEA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build_output", "build_output", "{1B7BAEAE-FADE-432F-8532-D6D211C6B5CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
