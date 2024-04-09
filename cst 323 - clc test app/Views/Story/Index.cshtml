@@ -1,0 +1,58 @@
+﻿@model IEnumerable<cst_323___clc_test_app.Models.Story>
+
+<div class="container">
+   
+        <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+            <div class="col-10 col-sm-8 col-lg-6">
+                <img src="~/assets/undraw_reading_time_re_phf7.svg" class="img-fluid" alt="Example image" width="500" height="500" loading="lazy">
+            </div>
+            <div class="col-lg-6">
+                <h1 class="display-5 fw-bold lh-1 mb-3">Manage Stories</h1>
+            <p class="lead mb-4">Welcome to the "Manage Stories" page! This is where you're in control of your stories. Need to make changes? No problem! You can edit, delete, and read your existing stories right from here. </p>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                <a class="btn btn-primary btn-lg px-4 me-md-2" asp-controller="Story" asp-action="CreateStory"> Create Story </a>
+                <a class="btn btn-outline-secondary btn-lg px-4" asp-controller="Home" asp-action="Index"> Back To Home </a>
+                </div>
+            </div>
+        </div>
+
+    <hr />
+    <div class="row mt-3">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                        <div class="card-header">
+                        <i class="fa-solid fa-book-open"></i>
+                            @Html.DisplayFor(modelItem => item.title)
+                        </div>
+                    <div class="card-body">
+                        <p class="card-subtitle text-secondary">Genre: @Html.DisplayFor(modelItem => item.genre)</p>
+                        <p class="card-text">@TruncateText(item.story, 150)</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        @Html.ActionLink("Edit", "EditStory", "Story", new { id = item.id }, new { @class = "btn btn-primary btn-sm" }) |
+                        @Html.ActionLink("Read", "ShowSingleStory", "Story", new { id = item.id }, new { @class = "btn btn-secondary btn-sm" }) |
+                        @Html.ActionLink("Delete", "DeleteStory", "Story", new { id = item.id }, new { @class = "btn btn-danger btn-sm" })
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@functions {
+    string TruncateText(string text, int maxLength)
+    {
+        if (text.Length <= maxLength)
+        {
+            return text;
+        }
+        else
+        {
+            int lastSpaceIndex = text.LastIndexOf(' ', maxLength);
+            return text.Substring(0, lastSpaceIndex) + "...";
+        }
+    }
+}
+

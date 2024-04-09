@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container col-xxl-8 px-4 py-5">
+    <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+        <div class="col-10 col-sm-8 col-lg-6">
+            <img src="~/assets/undraw_bibliophile_re_xarc.svg" class="img-fluid" alt="Example image" width="500" height="500" loading="lazy">
+        </div>
+        <div class="col-lg-6">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <h1 class="display-5 fw-bold lh-1 mb-3">StoryBuilder.io</h1>
+                <h2>Welcome, @User.Identity.Name!</h2>
+            }
+            else
+            {
+                <h1 class="display-5 fw-bold lh-1 mb-3">StoryBuilder.io</h1>
+                <h2>Welcome, Guest!</h2>
+            }
+        <p class="lead mb-4">Welcome to StoryBuilder.io! With easy-to-use editing features, you can create new content, update existing pieces, and remove outdated material with just a few clicks. Our user-friendly interface ensures that anyone, regardless of technical expertise, can navigate and utilize StoryBuilder effectively!</p>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                 <a asp-controller="User" asp-action="Login" class="btn btn-primary btn-lg px-4 me-md-2">Login</a>
+                  <a asp-controller="User" asp-action="Register" class="btn btn-outline-secondary btn-lg px-4">Register</a>
+            </div>
+        </div>
+    </div>
+</div>
