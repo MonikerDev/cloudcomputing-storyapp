@@ -2,12 +2,12 @@
 image: mcr.microsoft.com/dotnet/sdk:latest
 variables:
  # profile the path to your proj file.  I usually have more than one project in my solution so this is needed.
- PROJ_PATH: 'path/to/your/projectname.csproj'
- RELEASE_FOLDER: 'path/to/your/bin/Release'
+ PROJ_PATH: '"/cst 323 - clc test app/cst 323 - clc test app.csproj"'
+ RELEASE_FOLDER: '/cst 323 - clc test app/bin/Release'
  # define where to put your build. You can make this up.
- BUILD_FOLDER: '/new/path/to/put/your/builds'  
+ BUILD_FOLDER: '/build_output'  
  # define where to put your zip file containing your build
- ZIPFILE: '/new/path/to/put/your/builds/$CI_COMMIT_REF_NAME-$CI_PIPELINE_ID.zip'  
+ ZIPFILE: '/build_output/$CI_COMMIT_REF_NAME-$CI_PIPELINE_ID.zip'  
  # define some of your AWS variables...these could be defined in the settings/CICD/variables as well if you wanted.
  REGION: 'us-east-1'
  APPNAME: 'storyapp'
