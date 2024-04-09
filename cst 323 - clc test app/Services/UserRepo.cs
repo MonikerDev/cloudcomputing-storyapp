@@ -5,11 +5,11 @@ namespace cst_323___clc_test_app.Services
 {
     public class UserRepo : UserService
     {
-        private const string connectionString = "server=saclc.mysql.database.azure.com;uid=moniker;pwd=Dickcock69;database=clcfinal";
-        private MySqlConnector.MySqlConnection conn = new MySqlConnector.MySqlConnection();
+       // private const string connectionString = "server=saclc.mysql.database.azure.com;uid=moniker;pwd=Dickcock69;database=clcfinal";
+     //   private MySqlConnector.MySqlConnection conn = new MySqlConnector.MySqlConnection();
 
-        //   static string connectionString = RDSConnector.GetRDSConnectionString();
-        //        private MySqlConnection conn = new MySqlConnection(connectionString);
+        static string connectionString = RDSConnector.GetRDSConnectionString();
+       private MySqlConnection conn = new MySqlConnection(connectionString);
 
         private readonly ILogger<UserRepo> _logger;
 
