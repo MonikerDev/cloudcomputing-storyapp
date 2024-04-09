@@ -42,7 +42,7 @@ namespace cst_323___clc_test_app.Controllers
             _logger.LogInformation("Entering AddStory method in StoryController at {DateTime:yyyy-MM-dd HH:mm:ss}", DateTime.UtcNow);
             _logger.LogInformation("Adding new story at {DateTime:yyyy-MM-dd HH:mm:ss}", DateTime.UtcNow);
             story.userID = 1;
-            story = StoryGenerator.WriteStory(story).Result;
+            story.story = "temp";
             _storyRepo.AddStory(story);
             _logger.LogInformation("Exiting AddStory method in StoryController at {DateTime:yyyy-MM-dd HH:mm:ss}", DateTime.UtcNow);
             return RedirectToAction("Index");
