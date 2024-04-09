@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace cst_323___clc_test_app.Controllers
 {
-	[Authorize]
+//	[Authorize]
 	public class StoryController : Controller
 	{
         private readonly ILogger<StoryController> _logger;

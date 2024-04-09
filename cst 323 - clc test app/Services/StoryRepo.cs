@@ -5,7 +5,7 @@ namespace cst_323___clc_test_app.Services
 {
     public class StoryRepo : StoryService
     {
-        private const string connectionString = "server=127.0.0.1;uid=root;pwd=root;database=cc-clc";
+        private const string connectionString = "user=saclc.mysql.database.azure.com;uid=moniker;pwd=Dickcock69;database=clcfinal";
         private MySqlConnector.MySqlConnection conn = new MySqlConnector.MySqlConnection();
         private readonly ILogger<StoryRepo> _logger;
 

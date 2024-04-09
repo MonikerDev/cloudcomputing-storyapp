@@ -5,7 +5,7 @@ namespace cst_323___clc_test_app.Services
 {
     public class UserRepo : UserService
     {
-        private const string connectionString = "server=127.0.0.1;uid=root;pwd=root;database=cc-clc";
+        private const string connectionString = "server=saclc.mysql.database.azure.com;uid=moniker;pwd=Dickcock69;database=clcfinal";
         private MySqlConnector.MySqlConnection conn = new MySqlConnector.MySqlConnection();
 
         //   static string connectionString = RDSConnector.GetRDSConnectionString();
