@@ -9,7 +9,7 @@ namespace cst_323___clc_test_app.Services
 	public static class StoryGenerator
 	{
 		// Place your openAiAPiKey here. 
-		public static string apiKey; //DotEnv.Read()["API_KEY"];
+		public static string apiKey; //;
 		
 
 		static APIAuthentication aPIAuthentication;
@@ -22,10 +22,9 @@ namespace cst_323___clc_test_app.Services
 
 		public static async Task<Story> WriteStory(Story story)
 		{
-			apiKey = System.Configuration.ConfigurationManager.AppSettings["API_KEY"];
-			Console.WriteLine(apiKey);
-            aPIAuthentication = new APIAuthentication(apiKey);
-			openAiApi = new OpenAIAPI(aPIAuthentication);
+			apiKey = DotEnv.Read()["API_KEY"];
+			Console.WriteLine("api key = " + apiKey);
+			openAiApi = new OpenAIAPI(new APIAuthentication(apiKey));
 			
 
 			string prompt = CompilePrompt(story.genre, story.premise);
