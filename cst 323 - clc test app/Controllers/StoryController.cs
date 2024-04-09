@@ -17,7 +17,7 @@ namespace cst_323___clc_test_app.Controllers
             _logger = logger;
             _storyRepo = storyRepo;
             _configuration = config;
-            StoryGenerator.openAiApiKey = config.GetSection("OPENAI_API_KEY").Value;
+            StoryGenerator.words = config.GetSection("RANDOM_STRING").Value;
         }
 
         public IActionResult Index()

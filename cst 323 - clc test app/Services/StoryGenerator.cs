@@ -8,7 +8,7 @@ namespace cst_323___clc_test_app.Services
 	public static class StoryGenerator
 	{
 		// Place your openAiAPiKey here. 
-		public static string openAiApiKey;
+		public static string words;
 		
 
 		static APIAuthentication aPIAuthentication;
@@ -21,8 +21,8 @@ namespace cst_323___clc_test_app.Services
 
 		public static async Task<Story> WriteStory(Story story)
 		{
-			Console.WriteLine(openAiApiKey);
-            aPIAuthentication = new APIAuthentication(openAiApiKey);
+			Console.WriteLine(words);
+            aPIAuthentication = new APIAuthentication(words);
 			openAiApi = new OpenAIAPI(aPIAuthentication);
 			
 
