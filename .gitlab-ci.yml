@@ -1,5 +1,6 @@
 # define our default image
-image: mcr.microsoft.com/dotnet/sdk:latest
+default:
+  image: mcr.microsoft.com/dotnet/sdk:latest
 variables:
  # profile the path to your proj file.  I usually have more than one project in my solution so this is needed.
  PROJ_PATH: '"/cst 323 - clc test app/cst 323 - clc test app.csproj"'
