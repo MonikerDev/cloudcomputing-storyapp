@@ -9,7 +9,21 @@ on:
       - main
   workflow_dispatch:
 
-jobs:
+env:
+    API_KEY: ${{ secrets.API_KEY}}
+
+
+
+jobs: 
+  prep:
+    runs-on: windows-latest
+    steps:
+      - uses: FileTransform@1
+        with:
+          folderPath: 'folder'
+          fileType: json
+          targetFiles: 'appsettings.json'
+
   build:
     runs-on: windows-latest
 
