@@ -1,4 +1,5 @@
 ﻿using cst_323___clc_test_app.Models;
+using dotenv.net;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using OpenAI_API;
 using OpenAI_API.Chat;
@@ -8,7 +9,7 @@ namespace cst_323___clc_test_app.Services
 	public static class StoryGenerator
 	{
 		// Place your openAiAPiKey here. 
-		public static string words;
+		public static string apiKey = DotEnv.Read()["API_KEY"];
 		
 
 		static APIAuthentication aPIAuthentication;
@@ -21,8 +22,8 @@ namespace cst_323___clc_test_app.Services
 
 		public static async Task<Story> WriteStory(Story story)
 		{
-			Console.WriteLine(words);
-            aPIAuthentication = new APIAuthentication(words);
+			Console.WriteLine(apiKey);
+            aPIAuthentication = new APIAuthentication(apiKey);
 			openAiApi = new OpenAIAPI(aPIAuthentication);
 			
 

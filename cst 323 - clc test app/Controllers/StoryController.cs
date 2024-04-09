@@ -12,12 +12,10 @@ namespace cst_323___clc_test_app.Controllers
         private readonly StoryService _storyRepo;
         private readonly IConfiguration _configuration;
 
-        public StoryController(ILogger<StoryController> logger, StoryService storyRepo, IConfiguration config)
+        public StoryController(ILogger<StoryController> logger, StoryService storyRepo)
         {
             _logger = logger;
             _storyRepo = storyRepo;
-            _configuration = config;
-            StoryGenerator.words = config.GetSection("RANDOM_STRING").Value;
         }
 
         public IActionResult Index()
