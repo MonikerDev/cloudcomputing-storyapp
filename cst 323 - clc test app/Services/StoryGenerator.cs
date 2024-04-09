@@ -22,7 +22,6 @@ namespace cst_323___clc_test_app.Services
 
 		public static async Task<Story> WriteStory(Story story)
 		{
-			apiKey = System.Configuration.ConfigurationManager.AppSettings["API_KEY"];
 			Console.WriteLine("api key = " + apiKey);
 			openAiApi = new OpenAIAPI(new APIAuthentication(apiKey));
 			
