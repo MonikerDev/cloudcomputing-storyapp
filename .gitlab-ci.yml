@@ -1,23 +1,93 @@
-build-job:
-  stage: build
-  script:
-    - echo "Hello, $GITLAB_USER_LOGIN!"
-
-test-job1:
-  stage: test
-  script:
-    - echo "This job tests something"
-
-test-job2:
-  stage: test
-  script:
-    - echo "This job tests something, but takes more time than test-job1."
-    - echo "After the echo commands complete, it runs the sleep command for 20 seconds"
-    - echo "which simulates a test that runs 20 seconds longer than test-job1"
-    - sleep 20
-
-deploy-prod:
-  stage: deploy
-  script:
-    - echo "This job deploys something from the $CI_COMMIT_BRANCH branch."
-  environment: production
+# define our default image
+image: mcr.microsoft.com/dotnet/sdk:latest
+variables:
+ # profile the path to your proj file.  I usually have more than one project in my solution so this is needed.
+ PROJ_PATH: 'path/to/your/projectname.csproj'
+ RELEASE_FOLDER: 'path/to/your/bin/Release'
+ # define where to put your build. You can make this up.
+ BUILD_FOLDER: '/new/path/to/put/your/builds'  
+ # define where to put your zip file containing your build
+ ZIPFILE: '/new/path/to/put/your/builds/$CI_COMMIT_REF_NAME-$CI_PIPELINE_ID.zip'  
+ # define some of your AWS variables...these could be defined in the settings/CICD/variables as well if you wanted.
+ REGION: 'us-east-1'
+ APPNAME: 'storyapp'
+ ENVNAME: 'Storyapp-env'
+ S3BUCKET: 'monikergitlab'
+ S3KEY: '$CI_COMMIT_REF_NAME-$CI_PIPELINE_ID' #this is what we'll be calling the zip file in S3.
+ 
+ 
+# define the stages of the pipeline
+stages:
+ - build
+ - test
+ - publish
+ - deploy
+ 
+ 
+ 
+# BUILD the .net project
+build_job:
+ stage: build
+ only:
+   - master
+   - tags
+ script:
+   - 'dotnet restore $PROJ_PATH'  # restore Nuget dependencies
+   - 'dotnet build $PROJ_PATH --configuration Release --no-restore'  # build the project
+ artifacts:
+   expire_in: 1 week  # save gitlab server space, we copy the files we need to deploy folder later on
+   paths:
+     - '$RELEASE_FOLDER'  # saving to deploy folder
+     
+     
+# TEST the .net project (you are writing tests, right?)
+test_job:
+ stage: test
+ only:
+   - master
+   - tags
+ script:
+   - 'dotnet test $PROJ_PATH --no-build -l "console;verbosity=detailed"'
+   
+   
+# PUBLISH the .net project and copy it into your desired build folder (relative to the repo root)
+publish_job:
+ stage: publish
+ only:
+   - master
+   - tags
+ script:
+   - 'dotnet publish $PROJ_PATH --os linux -o $BUILD_FOLDER'
+ artifacts:
+   expire_in: 1 week  # save gitlab server space, we copy the files we need to deploy folder later on
+   paths:
+     - '$BUILD_FOLDER'  # saving
+     
+     
+# DEPLOY to AWS S3 and our beanstalk
+deploy_job:
+ stage: deploy
+ # let's use one of gitlab's premade images that comes with the aws cli already installed
+ image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
+ only:
+   - master
+   - tags
+ script:
+# here's some debugging if you need to see where you're copying your files
+   #- echo $ZIPFILE
+   #- 'echo $BUILD_FOLDER/*'
+# install zip
+   - apt install zip
+# go to the build folder and zip everything up
+   - cd $BUILD_FOLDER
+   - zip -r $ZIPFILE *
+   - cd /
+# configure our AWS security and such
+   - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+   - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+   - aws configure set region $REGION
+# copy up the build
+   - aws s3 cp $ZIPFILE s3://$S3BUCKET/$S3KEY
+# using the zip file, update the beanstalk with the latest code
+   - aws elasticbeanstalk create-application-version --application-name $APPNAME --version-label $S3KEY --source-bundle S3Bucket=$S3BUCKET,S3Key=$S3KEY
+   - aws elasticbeanstalk update-environment --application-name $APPNAME --environment-name $ENVNAME --version-label $S3KEY
