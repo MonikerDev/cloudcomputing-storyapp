@@ -1,4 +1,5 @@
 ﻿using cst_323___clc_test_app.Models;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using OpenAI_API;
 using OpenAI_API.Chat;
 
@@ -7,20 +8,23 @@ namespace cst_323___clc_test_app.Services
 	public static class StoryGenerator
 	{
 		// Place your openAiAPiKey here. 
-		const string openAiApiKey = "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"; 
+		public static string openAiApiKey;
+		
 
 		static APIAuthentication aPIAuthentication;
 		static OpenAIAPI openAiApi;
 
 		static string CompilePrompt(string genre, string premise)
 		{
-			return "Tell me a " + genre + " story where " + premise;
+            return "Tell me a " + genre + " story where " + premise;
 		}
 
 		public static async Task<Story> WriteStory(Story story)
 		{
-			aPIAuthentication = new APIAuthentication(openAiApiKey);
+			Console.WriteLine(openAiApiKey);
+            aPIAuthentication = new APIAuthentication(openAiApiKey);
 			openAiApi = new OpenAIAPI(aPIAuthentication);
+			
 
 			string prompt = CompilePrompt(story.genre, story.premise);
 

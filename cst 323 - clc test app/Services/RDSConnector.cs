@@ -13,7 +13,7 @@ namespace cst_323___clc_test_app.Services
             // Hardcoded connection details
             string dbname = "cc-clc";
             string username = "moniker";
-            string password = "Cockdick69";
+            string password = "Dickcock69";
             string hostname = "saclc.mysql.database.azure.com";
             string port = "3306";
 

@@ -27,6 +27,9 @@ if (!app.Environment.IsDevelopment())
 	app.UseHsts();
 }
 
+IConfiguration configuration = app.Configuration;
+var t = configuration.GetValue<string>("API_KEY");
+Console.WriteLine(t);
 
 
 app.UseHttpsRedirection();
